@@ -1,6 +1,10 @@
 ##penn_grader
 *.yaml
 
+##data
+*.xls
+*.csv
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
