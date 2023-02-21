@@ -76,9 +76,9 @@
 \begin{enumerate}
 \item 
 \begin{enumerate}
-    \item decrease the training error, cause the model is overfitting without regularization on x related value
-    \item increase the training error, infinite regularization, underfitting
-    \item increase the training error, same as 2
+    \item increase. no regulariation on x1 and x2 and underfitting in the intercept. the decision boundary would be a line cross the origin. which cant split perfectly.
+    \item increase. the decision boundary would be a line consider only x2 and intercept, which is a line parallel to x1 axis, which cant split perfectly.
+    \item same. there would be a line that perpendicular to x1 axis which can split perfectly.
 \end{enumerate}
 \item
 \begin{enumerate}
@@ -114,9 +114,9 @@
         thus we choose Weather as the root node to split the data
 
   \item  pic: \\ 
-  \includegraphics{dt.png}
-  \item the probability of be a good day to surf is 2/3, so should be a good day
-  \item no. there is error in the leave node as shown in my tree
+  \includegraphics{dt.jpg}
+  \item yes its a good day
+  \item no. ID3 use IG to do greedily optimizering, heruestic is not guaranteed to be optimal. ID3 can also be overfitting.
   \end{enumerate}
 
 \item ans:\\
