@@ -1,3 +1,6 @@
+#not working, but I think it's close. 
+#not sure how to get it work.
+
 import numpy as np
 
 # Define the data points and their labels
