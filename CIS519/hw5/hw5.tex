@@ -1,0 +1,176 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage[noabbrev]{cleveref}
+\usepackage{courier}
+\usepackage{listings}
+
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.3in
+\textheight 9.0in
+
+\newcommand{\ignore}[1]{}
+\def\pp{\par\noindent}
+
+\newcommand{\assignment}[4]{
+\thispagestyle{plain}
+\newpage
+\setcounter{page}{1}
+\noindent
+\begin{center}
+\framebox{ \vbox{ \hbox to 6.28in
+{CIS 419/519: Applied Machine Learning \hfill #1}
+\vspace{4mm}
+\hbox to 6.28in
+{\hspace{2.5in}\large\bf\mbox{Homework #2}}
+\vspace{4mm}
+\hbox to 6.28in
+{{\it Handed Out: #3 \hfill Due: #4}}
+}}
+\end{center}
+}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=50pt,frame=bottomline}
+
+
+\begin{document}
+\assignment{Spring 2023}{5}{March 15}{March 29, 7:59 p.m.}
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+
+\begin{itemize}
+\item {\bf Your Name:}  \textit{Qihang Dai}
+\item {\bf Your PennKey:} \textit{ahgdyycc}
+\item {\bf Your PennID:} \textit{78803164}
+\end{itemize}
+
+\section{Multiple Choice \& Written Questions}
+
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item choose B. this filter gonna average one pixel with the rest 8 pixels around it.
+\item this filter will double the value of each pixel, thus the image will be brighter.
+\item this filter tends to detect vertical edges. If in the receptive field of this filter, left side and right side has a large difference, it will be amplified by this filter and thus detected as an edge. 
+\end{enumerate}
+
+\item  
+    $$ p1 = 0 * 0.9 - 0.1 * 1 = -0.1 $$
+    $$ w1 = w1 + p = 0.9 $$
+
+    $$ p2 = -0.1 * 0.9 - 0.1 * 0 = -0.09 $$
+    $$ w2 = w1 + p = 0.81 $$
+
+    $$ p3 = -0.09 * 0.9 - 0.1 * 1 = -0.189 $$
+    $$ w3 = w2 + p  = 0.621 $$ 
+
+
+\item
+   $$ out = (in + 2 * padding - kernelSize)/stride + 1 $$
+   step a: Conv. out = (232 - 5)/1 + 1 = 228. dimension: (228, 228, 5) 
+   
+   step b: Relu. no change
+   
+   step c: MaxPool. out = (228 - 2)/2 + 1 = 114. dimension: (114, 114, 5)
+  
+   step d: Conv. out = (114 - 3)/1 + 1 = 112. dimension: (112, 112, 10)
+
+   step e: Relu. no change
+
+   step f: MaxPool. out = (112 - 2)/2 + 1 = 56. dimension: (56, 56, 10)
+
+    step g: Conv. out = (56 - 3)/1 + 1 = 54. dimension: (54, 54, 20)
+
+    step h: Relu. no change
+
+    step i: MaxPool. out = (54 - 2)/2 + 1 = 27. dimension: (27, 27, 20)
+
+    number of parameters: there is no fully connected layer. pool and input layer have zero parmeter. Thus calculate the total number of parameters in each convolutional layer.
+
+    the equation is: ((shape of width of the filter * shape of height of the filter * number of filters in the previous layer+1)*number of filters). 
+    \begin{align}
+    conv_a = (5 * 5 * 3  + 1) * 5 = 380 \\
+    conv_d = (3 * 3 * 5  + 1) * 10 = 460 \\
+    conv_g = (3 * 3 * 10 + 1) * 20 = 1820 \\
+    totalParameters = 380 + 460 + 1820 = 2650
+    \end{align}
+\item 
+    \begin{align}
+      W_1 = \begin{bmatrix}
+        w_{11} & w_{21}\\
+        w_{12} & w_{22}\\
+      \end{bmatrix} \\ = \begin{bmatrix}
+        0.1 & 0.2\\
+        -0.4 & 0.3\\
+      \end{bmatrix} \\
+    W_2 = \begin{bmatrix}
+      0.1\\
+      0.2\\
+    \end{bmatrix} \\
+    y_1 = w_{11} * x_1 + w_{21} * x_2 = 0.1 * 10 + 0.2 * 8 = 2.6 \\
+    y_2 = w_{12} * x_1 + w_{22} * x_2 = -0.4 * 10 + 0.3 * 8 = -1.6 \\
+    Y = [y_1, y_2] = [2.6, -1.6] \\
+    output = W2_1 * y_1 + W2_2 * y_2 = 0.1 * 2.6 + 0.2 * -1.6 = 0.06 \\
+    L(output) = \sigma(output) = \frac{1}{1 + e^{-0.06}} = 0.5149 \\
+    \frac{\partial L}{\partial output} = \frac{1}{1 + e^{-0.06}} * (1 - \frac{1}{1 + e^{-0.06}}) = 0.249 \\
+    \frac{\partial output}{\partial W_2} = relu([y_1, y_2]) = [2.6, 0] \\
+    \end{align}
+    by chain rule:
+    \begin{align}
+    \frac{\partial L}{\partial W_2} = \frac{\partial L}{\partial output} * \frac{\partial output}{\partial W_2} = 0.249 * [2.6, 0] = [0.64, 0]
+    \end{align}
+    \begin{align}
+    \frac{\partial output}{\partial relu([y_1, y_2])} = W_2 = [0.1, 0.2] \\
+    \frac{\partial L}{\partial y1} = \frac{\partial L}{\partial output} * \frac{\partial output}{\partial relu(y1)} * \frac{\partial relu(y1)}{\partial y1} = 0.249 * 0.1 * 1 = 0.0249 \\
+    \frac{\partial L}{\partial y2} = \frac{\partial L}{\partial output} * \frac{\partial output}{\partial relu(y2)} * \frac{\partial relu(y2)}{\partial y2} = 0.249 * 0.2 * 0 = 0 \\
+    \frac{\partial L}{\partial Y} = [\frac{\partial L}{\partial y1}, \frac{\partial L}{\partial y2}] = [0.0249, 0]
+    \end{align}
+    then we can calcualte the gradient of loss with respect to the weight of the first layer W1:
+    \begin{align}
+      \frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial Y} * \frac{\partial Y}{\partial W_1} = [0.0249, 0] * [x1, x2]^T = \begin{bmatrix}
+        0.0249 * 10 & 0.0249 * 8\\
+        0 & 0\\
+      \end{bmatrix} = \begin{bmatrix}
+        0.249 & 0.1992\\
+        0 & 0\\
+      \end{bmatrix}
+    \end{align}
+\item
+  \begin{enumerate}
+  \item 
+    constraint(i):  $$C_h \land C_c = 0 $$  $$max(0, C_h + C_ c - 1) = 0$$
+    
+    constraint(ii):  $$C_h \land \neg C_m = 0 $$ $$max(0, C_h + \neg C_m - 1) = max(0, C_h + 1 - C_m - 1) = max(0, C_h - C_m) = 0$$
+
+    constraint(iii):  $$C_c \land \neg C_m = 0$$ $$ max(0, C_c - C_m) = 0  $$
+
+  \item not really need an is function. t-norm is already within [0, 1] range. 
+  \item to satisfy the inital three constraints, we set all target value to zero. Then we use the constraint value and the zero to compute MSE.
+  Thus $$L_i = max(0, C_h + C_c - 1) ^ 2$$
+  $$L_ii = max(0, C_h - C_m) ^ 2$$
+  $$L_iii = max(0, C_c - C_m) ^ 2$$
+  \end{enumerate}
+\end{enumerate}
+\end{document} 
