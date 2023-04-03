@@ -1,3 +1,9 @@
+#ZIP file
+*.zip
+
+## all files under cassava folder, recursively
+dataset/**
+
 ##penn_grader
 *.yaml
 
